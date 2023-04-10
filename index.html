@@ -1,0 +1,131 @@
+<html>
+
+<head>
+    <style>
+        .repoOptionDiv {
+            padding: 30px;
+            background-color: antiquewhite;
+            margin-top: 30px;
+            border: 1px solid;
+            border-radius: 10px;
+        }
+    </style> 
+</head>
+
+
+
+<body>
+    <h3>Welcome to Smart Auto Review Dashboard!</h3>
+    <div style="padding:10px; border:1px solid;border-radius:10px;">
+        <p>Please select the repo:</p>
+        <select id="__repoName" onchange="onRepoSelection()">
+            <option>--select--</option>
+            <option>Test Repo</option>
+            <option>Sloop</option> 
+            <option>Raft</option>
+            <option>Ark</option>
+        </select>
+
+    </div>
+    <div id="repoOptionDiv" class="repoOptionDiv" style="display: none">
+        <h1 id="__repo"></h1>
+        <p>
+            <label>Smart Code Reviewer Models:</label><br />
+            <input type="checkbox" id="chatGPT" name="chatGPT" value="chatGPT">
+            <label for="chatGPT"> chatGPT</label><br>
+            <input type="checkbox" id="microsoft" name="microsoft" value="microsoft">
+            <label for="microsoft"> microsoft</label><br>
+        </p> 
+        <p>
+            <label>AutoFix Options:</label><br />
+            <input type="checkbox" id="eslint" name="eslint" value="eslint">
+            <label for="eslint"> eslint</label><br>
+            <input type="checkbox" id="formatter" name="formatter" value="formatter">
+            <label for="formatter"> formatter</label><br>
+        </p> 
+        <p><button onclick="onRepoOptionsSubmit()">Submit</button></p>
+    </div>
+    <script>
+        let repo = null;
+        let repoOptions = {
+            "Test Repo": {
+                codeReviewOptions: {
+                    chatGPT: true,
+                    microsoft: true
+                },
+                codeFixerOptions: {
+                    eslint: true,
+                    formatter: true
+                }
+            },
+            "Sloop": {
+                codeReviewOptions: {
+                    chatGPT: true,
+                    microsoft: true
+                },
+                codeFixerOptions: {
+                    eslint: true,
+                    formatter: true
+                }
+            },
+            "Raft": {
+                codeReviewOptions: {
+                    chatGPT: true,
+                    microsoft: true
+                },
+                codeFixerOptions: {
+                    eslint: true,
+                    formatter: true
+                }
+            },
+            "Ark": {
+                codeReviewOptions: {
+                    chatGPT: true,
+                    microsoft: true
+                },
+                codeFixerOptions: {
+                    eslint: true,
+                    formatter: true
+                }
+            }
+        };
+        function onRepoSelection() {
+            document.getElementById("repoOptionDiv").style.display = "none";
+            repo = document.getElementById("__repoName").value;
+            if (repo === '--select--') {
+                repo = null;
+                return;
+            }
+            showRepoProperties();
+        }
+
+        function showRepoProperties() {
+            document.getElementById("__repo").innerText = "Selected Repo: "+repo;
+            document.getElementById("repoOptionDiv").style.display = "block";
+            console.log("showRepoProperties for repo ", repo);
+            let currentRepoOptions = repoOptions[repo];
+            document.getElementById("chatGPT").checked = currentRepoOptions.codeReviewOptions.chatGPT;
+            document.getElementById("microsoft").checked = currentRepoOptions.codeReviewOptions.microsoft;
+
+
+            document.getElementById("eslint").checked = currentRepoOptions.codeFixerOptions.eslint;
+            document.getElementById("formatter").checked = currentRepoOptions.codeFixerOptions.formatter;
+
+        }
+
+        function onRepoOptionsSubmit() {
+            let currentRepoOptions = repoOptions[repo];
+            currentRepoOptions.codeReviewOptions.chatGPT = document.getElementById("chatGPT").checked;
+            currentRepoOptions.codeReviewOptions.microsoft = document.getElementById("microsoft").checked;
+
+
+            currentRepoOptions.codeFixerOptions.eslint = document.getElementById("eslint").checked;
+            currentRepoOptions.codeFixerOptions.formatter = document.getElementById("formatter").checked;
+
+        }
+
+
+    </script>
+</body>
+
+</html>
