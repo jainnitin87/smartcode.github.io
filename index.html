@@ -46,49 +46,63 @@
         <p><button onclick="onRepoOptionsSubmit()">Submit</button></p>
     </div>
     <script>
+
         let repo = null;
-        let repoOptions = {
-            "Test Repo": {
-                codeReviewOptions: {
-                    chatGPT: true,
-                    microsoft: true
-                },
-                codeFixerOptions: {
-                    eslint: true,
-                    formatter: true
-                }
-            },
-            "Sloop": {
-                codeReviewOptions: {
-                    chatGPT: true,
-                    microsoft: true
-                },
-                codeFixerOptions: {
-                    eslint: true,
-                    formatter: true
-                }
-            },
-            "Raft": {
-                codeReviewOptions: {
-                    chatGPT: true,
-                    microsoft: true
-                },
-                codeFixerOptions: {
-                    eslint: true,
-                    formatter: true
-                }
-            },
-            "Ark": {
-                codeReviewOptions: {
-                    chatGPT: true,
-                    microsoft: true
-                },
-                codeFixerOptions: {
-                    eslint: true,
-                    formatter: true
-                }
+        let repoOptions = null;
+        var xhr = new XMLHttpRequest();
+
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                repoOptions = JSON.parse(this.responseText);
+                console.log(repoOptions);
             }
-        };
+        });
+
+        xhr.open("GET", "https://api.npoint.io/2275cfec5ddfc130b1a1");
+
+        xhr.send();
+        // let repoOptions = {
+        //     "Test Repo": {
+        //         codeReviewOptions: {
+        //             chatGPT: true,
+        //             microsoft: true
+        //         },
+        //         codeFixerOptions: {
+        //             eslint: true,
+        //             formatter: true
+        //         }
+        //     },
+        //     "Sloop": {
+        //         codeReviewOptions: {
+        //             chatGPT: true,
+        //             microsoft: true
+        //         },
+        //         codeFixerOptions: {
+        //             eslint: true,
+        //             formatter: true
+        //         }
+        //     },
+        //     "Raft": {
+        //         codeReviewOptions: {
+        //             chatGPT: true,
+        //             microsoft: true
+        //         },
+        //         codeFixerOptions: {
+        //             eslint: true,
+        //             formatter: true
+        //         }
+        //     },
+        //     "Ark": {
+        //         codeReviewOptions: {
+        //             chatGPT: true,
+        //             microsoft: true
+        //         },
+        //         codeFixerOptions: {
+        //             eslint: true,
+        //             formatter: true
+        //         }
+        //     }
+        // };
         function onRepoSelection() {
             document.getElementById("repoOptionDiv").style.display = "none";
             repo = document.getElementById("__repoName").value;
@@ -100,7 +114,7 @@
         }
 
         function showRepoProperties() {
-            document.getElementById("__repo").innerText = "Selected Repo: "+repo;
+            document.getElementById("__repo").innerText = "Selected Repo: " + repo;
             document.getElementById("repoOptionDiv").style.display = "block";
             console.log("showRepoProperties for repo ", repo);
             let currentRepoOptions = repoOptions[repo];
@@ -121,7 +135,28 @@
 
             currentRepoOptions.codeFixerOptions.eslint = document.getElementById("eslint").checked;
             currentRepoOptions.codeFixerOptions.formatter = document.getElementById("formatter").checked;
+            postUpdate();
 
+        }
+
+        function postUpdate() {
+            // WARNING: For POST requests, body is set to null by browsers.
+            var data = JSON.stringify(repoOptions);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === 4) {
+                    console.log(this.responseText);
+                    document.getElementById("__repoName").value = "--select--";
+                    document.getElementById("repoOptionDiv").style.display = "none";
+                }
+            });
+
+            xhr.open("POST", "https://api.npoint.io/2275cfec5ddfc130b1a1");
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.send(data);
         }
 
 
