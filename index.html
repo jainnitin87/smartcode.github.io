@@ -35,6 +35,8 @@
             <label for="chatGPT"> chatGPT</label><br>
             <input type="checkbox" id="microsoft" name="microsoft" value="microsoft">
             <label for="microsoft"> microsoft</label><br>
+            <input type="checkbox" id="inHouse" name="inHouse" value="inHouse">
+            <label for="inHouse"> In House Model</label><br>
         </p> 
         <p>
             <label>AutoFix Options:</label><br />
@@ -131,6 +133,7 @@
             let currentRepoOptions = repoOptions[repo];
             currentRepoOptions.codeReviewOptions.chatGPT = document.getElementById("chatGPT").checked;
             currentRepoOptions.codeReviewOptions.microsoft = document.getElementById("microsoft").checked;
+            currentRepoOptions.codeReviewOptions.inHouse = document.getElementById("inHouse").checked;
 
 
             currentRepoOptions.codeFixerOptions.eslint = document.getElementById("eslint").checked;
